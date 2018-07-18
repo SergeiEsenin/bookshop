@@ -2,6 +2,8 @@ package com.example.bookshop.domain;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -22,22 +24,30 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private Set<Genre> genres;
 
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @JoinColumn(name="authors_id")
-    private Author authors;
+    private Set<Author> authors=new HashSet<>();
+
+
+    private double price;
 
     public Book() {
     }
 
-    public Book(String name, Set<Genre> genres, Author authors, double price) {
+    public Book(String name, Set<Genre> genres, Set<Author> authors, double price) {
         this.name = name;
         this.genres = genres;
-        this.authors = authors;
+
         this.price = price;
     }
 
-    private double price;
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Author author) {
+        authors.add(author);
+    }
 
     public Long getId() {
         return id;
@@ -63,13 +73,7 @@ public class Book {
         this.genres = genres;
     }
 
-    public Author getAuthors() {
-        return authors;
-    }
 
-    public void setAuthors(Author authors) {
-        this.authors = authors;
-    }
 
     public double getPrice() {
         return price;
@@ -77,5 +81,19 @@ public class Book {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(name, book.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name);
     }
 }

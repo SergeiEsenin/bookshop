@@ -1,8 +1,8 @@
 package com.example.bookshop.domain;
 
-import org.springframework.security.core.GrantedAuthority;
 
-public enum Genre implements GrantedAuthority {
+
+public enum Genre {
 
     ScienceFiction,
     Satire,
@@ -20,10 +20,7 @@ public enum Genre implements GrantedAuthority {
     Art,
     Biographies,
     Fantasy;
-    @Override
-    public String getAuthority() {
-        return name();
-    }
+
 }
 
 
