@@ -23,15 +23,23 @@
 <div class="card-columns">
 <#list books as b>
 <div class="card my-3" style="width: 18rem;">
+    <div>
+              <#if b.filename?? >
+                  <img src ="/img/${b.filename}" class="card-img-top">
+              </#if>
 
+    </div>
         <div class="m-2">
         <span>${b.name}</span>
         </div>
         <#list b.authors as a>
         <i> ${a}</i>
         </#list>
+     <#list b.genres as a>
+        <i> ${a}</i>
+     </#list>
         <div class="card-footer text-muted">
-
+${b.price}
 </div>
 
     </div>
@@ -40,6 +48,7 @@
 
 </#list>
 </div>
+
 
 
 </@m.page>

@@ -2,7 +2,6 @@ package com.example.bookshop.domain;
 
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,29 +23,53 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private Set<Genre> genres;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
-    @JoinColumn(name="authors_id")
-    private Set<Author> authors=new HashSet<>();
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "book_authors", joinColumns = @JoinColumn(name = "books_id"))
+    private Set<String> authors;
 
+
+
+    private String authorsStringed;
+
+    private  String filename;
+
+    private String finalpass;
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     private double price;
 
     public Book() {
+
     }
 
-    public Book(String name, Set<Genre> genres, Set<Author> authors, double price) {
+    public Book(String name, Set<Genre> genres, Set<String> authors, double price,String filename) {
         this.name = name;
         this.genres = genres;
-
+        this.filename=filename;
         this.price = price;
     }
 
-    public Set<Author> getAuthors() {
+    public String getAuthorsStringed() {
+        return authorsStringed;
+    }
+
+    public void setAuthorsStringed(String authorsStringed) {
+        this.authorsStringed = authorsStringed;
+    }
+
+    public Set<String> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(Author author) {
-        authors.add(author);
+    public void setAuthors(Set<String> authors) {
+        this.authors=authors;
     }
 
     public Long getId() {
@@ -73,7 +96,13 @@ public class Book {
         this.genres = genres;
     }
 
+    public String getFinalpass() {
+        return finalpass;
+    }
 
+    public void setFinalpass(String finalpass) {
+        this.finalpass = finalpass;
+    }
 
     public double getPrice() {
         return price;

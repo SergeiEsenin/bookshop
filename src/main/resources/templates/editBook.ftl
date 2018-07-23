@@ -4,7 +4,7 @@
 <@m.page>
 
 
-<form method="post" action="/add">
+<form method="post" enctype="multipart/form-data" >
   <div class="row">
     <div class="col">
       <input type="text" class="form-control" placeholder="Book name" name="title" value="${book.name}">
@@ -19,9 +19,9 @@
 
    <div class="row">
          <div class="col ">
-         <select class="selectpicker" multiple name="genres"  >
-                    <option>Mustard</option>
-                    <option>ScienceFiction</option>
+         <select class="selectpicker" multiple name="genres" >
+
+                    <option checked>ScienceFiction</option>
                     <option>Satire</option>
                     <option>Drama</option>
                     <option>Action</option>
@@ -41,16 +41,27 @@
          </div>
 
       <div class="col  mt-2">
-      <#list book.authors as author>
-           <input type="text" class="form-control" placeholder="Pls input authors through ," name="authors" value="${book.authors}"<#sep>,>
-           </#list>
+      <#if book.authorsStringed??>
+           <input type="text" class="form-control" placeholder="Pls input authors through ," name="authors" value="${book.authorsStringed}">
+</#if>
             </div>
 
 
       </div>
+      <div class="row">
+  <div class="col  mt-2">
+
+                 <div class="custom-file">
+                     <input type="file" name="file" id="customFile" <#if book.finalpass??> value="${book.finalpass}" </#if> required>
+                     <label class="custom-file-label" for="customFile">Choose file</label>
 
 
+</div>
+</div>
+ <div class="col  mt-2">
+  <button type="submit" class="btn btn-primary ">Submit</button>
+</div>
+</div>
 
-  <button type="submit" class="btn btn-primary mt-3">Submit</button>
 </form>
 </@m.page>

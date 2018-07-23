@@ -1,55 +1,87 @@
 package com.example.bookshop.service;
 
-import com.example.bookshop.domain.Author;
+
 import com.example.bookshop.domain.Book;
 import com.example.bookshop.domain.Genre;
 import com.example.bookshop.repo.BooksRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 public class BookService {
     @Autowired
     private BooksRepo booksRepo;
+    @Value("${upload.path}")
+    private String uploadPath;
 
-    @Autowired
-    private AuthorService authorService;
+
+
 
     public List<Book> findAll() {
         return booksRepo.findAll();
     }
 
-    public void addBook(String title, Double price, Set<String> genres, String authors) {
+    public void addBook(String title, Double price, Set<String> genres, String authors, MultipartFile file) {
         Book book = new Book();
         book.setName(title);
-        if (validateBook(book)){
-        book.setPrice(price);
-        book.setGenres(validateGenres(genres));
-        Set<Author> authorSet = authorService.validate(generateSetOfAuthors(parser(authors)), book);
-        authorSet.forEach(book::setAuthors);
+        if (validateBook(book)) {
+            prepForSave(book, price, genres, authors,file);
 
-            saveBook(book);}
+
+            saveBook(book);
+        }
 
     }
-public void editBook(Long id,String title, Double price, Set<String> genres, String authors) {
-Book book = findBookById(id);
-    book.setName(title);
-    book.setPrice(price);
-    book.setGenres(validateGenres(genres));
-    Set<Author> authorSet = authorService.validate(generateSetOfAuthors(parser(authors)), book);
-    authorSet.forEach(book::setAuthors);
 
-    if (validateBook(book))
+    public void editBook(Long id, String title, Double price, Set<String> genres, String authors, MultipartFile file) {
+
+        booksRepo.deleteById(id);
+        Book book = new Book();
+        book.setName(title);
+
+        prepForSave(book, price, genres, authors,file);
         saveBook(book);
 
 
+    }
 
-}
+    public void prepForSave(Book book, Double price, Set<String> genres, String authors,MultipartFile file) {
+        book.setPrice(price);
+        book.setGenres(validateGenres(genres));
+        book.setAuthorsStringed(authors);
+        Set<String> authorSet = parser(authors);
+        book.setAuthors(authorSet);
+        setAndSafePic(file,book);
+    }
+    private void setAndSafePic(MultipartFile file,Book book){
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadFolder = new File(uploadPath);
+            if (!uploadFolder.exists()) {
+                uploadFolder.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+            try {
+                file.transferTo(new File(uploadPath + "/" + resultFileName));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            book.setFilename(resultFileName);
+            book.setFinalpass(uploadPath + "/" + resultFileName);
+        }
+    }
+
 
 
     private Set<Genre> validateGenres(Set<String> genres) {
@@ -96,11 +128,7 @@ Book book = findBookById(id);
         return set;
     }
 
-    private Set<Author> generateSetOfAuthors(Set<String> set) {
 
-
-        return set.stream().map(Author::new).collect(Collectors.toSet());
-    }
 
     private void saveBook(Book book) {
         booksRepo.save(book);
@@ -109,9 +137,8 @@ Book book = findBookById(id);
     public Book findBookById(Long id) {
 
 
-
-    return   booksRepo.findBookById(id);
-}
+        return booksRepo.findBookById(id);
+    }
 
 
     public void delete(Long id) {
