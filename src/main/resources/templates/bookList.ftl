@@ -52,6 +52,7 @@
 </div>
 </div>
  <div class="col  mt-2">
+ <input type="hidden" name="_csrf" value="${_csrf.token}" />
   <button type="submit" class="btn btn-primary ">Submit</button>
 </div>
 </div>
