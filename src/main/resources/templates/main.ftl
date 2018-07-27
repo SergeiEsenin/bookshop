@@ -8,29 +8,38 @@
 
 
   <div class="form-row">
-    <div class="form-group col-md-6">
+      <div class="form-group col-md-6">
 
-      <form method="get" action="/main" class="form-inline">
-          <input type="text" name="filter" value="${filter?ifExists}" >
-<button type="submit" class="btn btn-primary ml-2" > Filter</button>
-      </form>
-    </div>
-</div>
+          <form method="get" action="/main" class="form-inline">
+              <input type="text" name="filter" value="${filter?ifExists}">
+              <button type="submit" class="btn btn-primary ml-2"> Filter</button>
+          </form>
+      </div>
+
+      <div class="form-group col-md-6">
+          <label>Сортировать по:</label>
+          <a href="/shop/priceUp">По возрастанию</a>
+
+          <a href="/shop/priceDown">По убыванию</a>
+
+      </div>
+
+  </div>
 
 
 
   Список сообщений
 <div class="card-columns">
 <#list books as b>
-<div class="card my-3" style="width: 18rem;">
-    <div>
+    <div class="card my-3" style="width: 18rem;">
+        <div>
               <#if b.filename?? >
-                  <img src ="/img/${b.filename}" class="card-img-top">
+                  <img src="/img/${b.filename}" class="card-img-top">
               </#if>
 
-    </div>
+        </div>
         <div class="m-2">
-        <span>${b.name}</span>
+            <span>${b.name}</span>
         </div>
         <#list b.authors as a>
         <i> ${a}</i>
@@ -39,11 +48,11 @@
         <i> ${a}</i>
      </#list>
         <div class="card-footer text-muted">
-${b.price}
-</div>
+            ${b.price}
+        </div>
 
     </div>
-    <#else>
+<#else>
     Nothing to show
 
 </#list>
