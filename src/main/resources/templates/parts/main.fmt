@@ -23,9 +23,7 @@
     </style>
 </head>
 <body>
-
-
-
+<#include "navbar.fmt">
 <div class="container mt-5">
 <#nested>
 </div>

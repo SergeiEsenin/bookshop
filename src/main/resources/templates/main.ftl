@@ -6,12 +6,11 @@
 <@m.page>
 
 
-
-  <div class="form-row">
+<div class="form-row" xmlns="http://www.w3.org/1999/html">
       <div class="form-group col-md-6">
 
-          <form method="get" action="/main" class="form-inline">
-              <input type="text" name="filter" value="${filter?ifExists}">
+          <form method="get"  class="form-inline">
+              <input type="text" name="filterino" value="${filter?ifExists}">
               <button type="submit" class="btn btn-primary ml-2"> Filter</button>
           </form>
       </div>
@@ -23,6 +22,7 @@
           <a href="/shop/priceDown">По убыванию</a>
 
       </div>
+
 
   </div>
 

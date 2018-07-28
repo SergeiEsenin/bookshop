@@ -29,7 +29,7 @@ public PasswordEncoder getPasswordEncoder (){return new BCryptPasswordEncoder(8)
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/","/registration").permitAll()
+                .antMatchers("/","/registration","/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

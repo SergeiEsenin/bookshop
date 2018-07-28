@@ -11,10 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -54,7 +52,7 @@ public class BookService {
 
     }
 
-    public void prepForSave(Book book, Double price, Set<String> genres, String authors,MultipartFile file) {
+    private void prepForSave(Book book, Double price, Set<String> genres, String authors,MultipartFile file) {
         book.setPrice(price);
         book.setGenres(validateGenres(genres));
         book.setAuthorsStringed(authors);
@@ -94,13 +92,34 @@ public class BookService {
         return set;
     }
 
-    public boolean validateBook(Book book) {
+    private boolean validateBook(Book book) {
         List<Book> books = booksRepo.findAll();
         return !books.contains(book);
     }
 
+    public List<Book> filtredBooks(String filter){
+        List<Book> books=booksRepo.findAll();
+        Set<Book> sortedByBookName=books.stream().filter(e->e.getName().toLowerCase().equals(filter.toLowerCase())).collect(Collectors.toSet());
+        Set<Book> sortedByAuthor = new HashSet<>();
+        for (Book e : books) {
+            if (e.getAuthors().stream().anyMatch(p -> p.toLowerCase().equals(filter.toLowerCase()))) {
+                sortedByAuthor.add(e);
+            }
+        }
+        sortedByBookName.addAll(sortedByAuthor);
+        if (filter != null && !filter.isEmpty()) {
 
-    public static Set<String> parser(String line) {
+
+            return new ArrayList<Book>(sortedByBookName);
+
+        } else {
+            return books;
+        }
+    }
+
+
+
+    private static Set<String> parser(String line) {
         Set<String> set = new HashSet<>();
         char[] c = line.toCharArray();
         StringBuilder stringBuilder = new StringBuilder();
