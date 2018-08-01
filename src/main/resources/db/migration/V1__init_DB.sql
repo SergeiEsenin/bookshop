@@ -1,18 +1,31 @@
-create table book_authors (books_id int8 not null,
+create table book_authors (
+    books_id int8 not null,
   authors varchar(255) not null);
-create table book_genre (books_id int8 not null,
+  create table ordr (
+    id int8 not null,
+    book_id  int8 not null,
+    name varchar(255),
+    quantity int4 ,
+    number varchar(255)
+     );
+create table book_genre (
+books_id int8 not null,
  genres varchar(255));
-create table books (id int8 not null,
+create table books  (
+  id int8 not null,
  authors_stringed varchar(255),
   filename varchar(255),
   finalpass varchar(255),
    name varchar(255),
+   annotation text not null,
     price float8 not null,
      primary key (id));
 create table user_role (
 user_id int8 not null,
  roles varchar(255));
-create table usr (id int8 not null,
+
+create table usr (
+id int8 not null,
 active boolean not null,
  email varchar(255),
  password varchar(255)

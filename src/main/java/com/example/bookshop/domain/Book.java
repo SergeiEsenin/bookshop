@@ -10,8 +10,8 @@ import java.util.Set;
 public class Book {
 
 
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
 
@@ -28,12 +28,13 @@ public class Book {
     private Set<String> authors;
 
 
-
     private String authorsStringed;
 
-    private  String filename;
+    private String filename;
 
     private String finalpass;
+
+    private String annotation;
 
     public String getFilename() {
         return filename;
@@ -49,10 +50,10 @@ public class Book {
 
     }
 
-    public Book(String name, Set<Genre> genres, Set<String> authors, double price,String filename) {
+    public Book(String name, Set<Genre> genres, Set<String> authors, double price, String filename) {
         this.name = name;
         this.genres = genres;
-        this.filename=filename;
+        this.filename = filename;
         this.price = price;
     }
 
@@ -69,7 +70,7 @@ public class Book {
     }
 
     public void setAuthors(Set<String> authors) {
-        this.authors=authors;
+        this.authors = authors;
     }
 
     public Long getId() {
@@ -106,6 +107,14 @@ public class Book {
 
     public double getPrice() {
         return price;
+    }
+
+    public String getAnnotation() {
+        return annotation;
+    }
+
+    public void setAnnotation(String annotation) {
+        this.annotation = annotation;
     }
 
     public void setPrice(double price) {

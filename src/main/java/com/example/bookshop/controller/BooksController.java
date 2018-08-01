@@ -35,8 +35,10 @@ public class BooksController {
 
     @PostMapping("/add")
     public String addNew(@RequestParam String title, @RequestParam Double price, @RequestParam Set<String> genres,
-                         @RequestParam String authors, Model model, @RequestParam("file") MultipartFile file) {
-        bookService.addBook(title,price,genres,authors,file);
+                         @RequestParam String authors, Model model,
+                         @RequestParam(name = "annotation" ,required = false, defaultValue = "") String annot,
+                         @RequestParam("file") MultipartFile file) {
+        bookService.addBook(title,price,genres,authors,file,annot);
         model.addAttribute("books",bookService.findAll());
 
         return "bookList";
@@ -55,9 +57,11 @@ public class BooksController {
 
     @PostMapping("/add/{id}")
     public String addNew(@PathVariable Long id , @RequestParam String title, @RequestParam Double price, @RequestParam Set<String> genres,
-                         @RequestParam String authors, @RequestParam MultipartFile file) {
+                         @RequestParam String authors,
+                         @RequestParam(name = "annotation" ,required = false, defaultValue = "") String annot,
+                         @RequestParam MultipartFile file) {
 
-        bookService.editBook(id,title,price,genres,authors,file);
+        bookService.editBook(id,title,price,genres,authors,annot,file);
 
 
         return "redirect:/add";

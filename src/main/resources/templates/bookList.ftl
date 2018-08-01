@@ -52,6 +52,14 @@
 </div>
 </div>
  <div class="col  mt-2">
+  <div class="form-group">
+     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="annotation"
+     placeholder="For annotation "></textarea>
+   </div>
+ </div>
+ </div>
+ <div class="row">
+ <div class="col  mt-2">
  <input type="hidden" name="_csrf" value="${_csrf.token}" />
   <button type="submit" class="btn btn-primary ">Submit</button>
 </div>

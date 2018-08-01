@@ -21,7 +21,7 @@
          <div class="col ">
          <select class="selectpicker" multiple name="genres" >
 
-                    <option checked>ScienceFiction</option>
+                    <option>ScienceFiction</option>
                     <option>Satire</option>
                     <option>Drama</option>
                     <option>Action</option>
@@ -58,6 +58,14 @@
 
 </div>
 </div>
+ <div class="col  mt-2">
+  <div class="form-group">
+     <textarea class="form-control" rows="3" name="annotation">
+      <#if book.annotation??> ${book.annotation} </#if> </textarea>
+   </div>
+ </div>
+</div>
+<div class="row">
  <div class="col  mt-2">
  <input type="hidden" name="_csrf" value="${_csrf.token}" />
   <button type="submit" class="btn btn-primary ">Submit</button>

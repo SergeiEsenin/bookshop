@@ -28,11 +28,12 @@ public class BookService {
         return booksRepo.findAll();
     }
 
-    public void addBook(String title, Double price, Set<String> genres, String authors, MultipartFile file) {
+    public void addBook(String title, Double price, Set<String> genres, String authors, MultipartFile file, String annot) {
         Book book = new Book();
         book.setName(title);
+
         if (validateBook(book)) {
-            prepForSave(book, price, genres, authors,file);
+            prepForSave(book, price, genres, authors,annot,file);
 
 
             saveBook(book);
@@ -40,19 +41,22 @@ public class BookService {
 
     }
 
-    public void editBook(Long id, String title, Double price, Set<String> genres, String authors, MultipartFile file) {
+    public void editBook(Long id, String title, Double price, Set<String> genres, String authors,String annot, MultipartFile file) {
 
         booksRepo.deleteById(id);
         Book book = new Book();
         book.setName(title);
 
-        prepForSave(book, price, genres, authors,file);
+        prepForSave(book, price, genres, authors,annot,file);
         saveBook(book);
 
 
     }
 
-    private void prepForSave(Book book, Double price, Set<String> genres, String authors,MultipartFile file) {
+    private void prepForSave(Book book, Double price, Set<String> genres, String authors,String annot,MultipartFile file) {
+
+            book.setAnnotation(annot);
+
         book.setPrice(price);
         book.setGenres(validateGenres(genres));
         book.setAuthorsStringed(authors);

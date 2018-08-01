@@ -1,6 +1,6 @@
 <#import "parts/main.fmt" as m>
 <#import "parts/login.fmt" as l>
-
+<#include "parts/login.fmt">
 
 
 <@m.page>
@@ -39,16 +39,26 @@
 
         </div>
         <div class="m-2">
-            <span>${b.name}</span>
+            <h5 align="center" class="card-title">${b.name}</h5>
         </div>
-        <#list b.authors as a>
-        <i> ${a}</i>
-        </#list>
-     <#list b.genres as a>
-        <i> ${a}</i>
-     </#list>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <strong>Authors:</strong>
+                <#list b.authors as a>
+                <i>${a}</i>
+                    <sep>,</sep>
+            </#list></li>
+            <li class="list-group-item"><#list b.genres as a>
+                <i>${a}</i>
+                <sep>,</sep>
+            </#list> </li>
+            <li class="list-group-item"><strong>Price : </strong>${b.price}</li>
+        </ul>
+
+
         <div class="card-footer text-muted">
-            ${b.price}
+<a href="/shop/${b.id}"> More</a>
+
         </div>
 
     </div>

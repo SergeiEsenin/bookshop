@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
@@ -25,7 +26,7 @@ public class MainController {
 
     @GetMapping("/test")
     public String gr() {
-        return "test1";
+        return "some";
     }
 
     @GetMapping("/shop")
@@ -35,6 +36,18 @@ public class MainController {
 model.addAttribute("books",bookService.filtredBooks(filter));
         return "main";
     }
+
+    @GetMapping("/shop/{book}")
+    public String about(@PathVariable Book book,Model model){
+
+        model.addAttribute("book",book);
+        return "details";
+
+    }
+
+
+
+
 
 
 
