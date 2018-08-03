@@ -27,6 +27,11 @@ public class Book {
     @CollectionTable(name = "book_authors", joinColumns = @JoinColumn(name = "books_id"))
     private Set<String> authors;
 
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
 
     private String authorsStringed;
 

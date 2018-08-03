@@ -40,5 +40,10 @@ private OrderService orderService;
         return "orderList";
     }
 
+    @PostMapping("/order/list")
+    public String changingStatus (Model model){
+        model.addAttribute("orders",orderService.findAll());
+        return "orderList";
+    }
 
 }

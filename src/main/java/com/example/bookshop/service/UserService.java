@@ -11,7 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService  implements UserDetailsService {
@@ -35,6 +36,7 @@ private WebSecurityConfig webSecurityConfig;
     private void saveUser(User user){
         usersRepo.save(user);
     }
+
     private User findUserByUsername(String username){
         return  usersRepo.findByUsername(username);
     }
@@ -43,7 +45,7 @@ private WebSecurityConfig webSecurityConfig;
     public boolean addUser(String username, String password, String password2, String email) {
         User userFromDB= findUserByUsername(username);
         User userFromDBByEmail =findUserByEmail(email);
-        if(userFromDB==null||password.equals(password2)||userFromDBByEmail==null){
+        if(userFromDB==null&&password.equals(password2)&&userFromDBByEmail==null){
             User user = new User();
             user.setActive(true);
             user.setUsername(username);
@@ -54,7 +56,40 @@ private WebSecurityConfig webSecurityConfig;
             return  true;
     }else  return false;
     }
+
+
+
     private User findUserByEmail(String email){
         return  usersRepo.findByEmail(email);
+    }
+
+
+    public List<User> findAll() {
+      return   usersRepo.findAll();
+    }
+
+    public void changeStatus(User user,Map<String,String> form) {
+        Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
+        user.getRoles().clear();
+        for (String key : form.keySet()) {
+            if(roles.contains(key)) {
+                user.getRoles().add(Role.valueOf(key));
+                System.out.println(key);
+            }
+        }
+
+
+        usersRepo.save(user);
+    }
+
+    public void updateProfile(User user, String password,String password2, String email) {
+        if(password.equals(password2)){
+            user.setPassword(webSecurityConfig.passwordEncoder.encode(password));
+        }
+        if(usersRepo.findByEmail(email)==null){
+            user.setEmail(email);
+        }
+        usersRepo.save(user);
+
     }
 }
