@@ -2,6 +2,7 @@ package com.example.bookshop.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 @Table(name = "ordr")
@@ -22,6 +23,10 @@ public class Order {
     @OneToOne
     @CollectionTable(name = "orders_books", joinColumns = @JoinColumn(name = "books_id"))
     private Book book;
+
+
+    private String status;
+
 
     public Long getId() {
         return id;
@@ -62,4 +67,14 @@ public class Order {
     public void setBook(Book book) {
         this.book = book;
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+
 }

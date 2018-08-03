@@ -5,8 +5,10 @@ create table book_authors (
     id int8 not null,
     book_id  int8 not null,
     name varchar(255),
-    quantity int4 ,
-    number varchar(255)
+    quantity int4,
+    status varchar (255),
+    number varchar(255),
+    primary key (id)
      );
 create table book_genre (
 books_id int8 not null,

@@ -16,8 +16,10 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @NotBlank(message = "Cannot be empty")
     private String username;
+
     @NotBlank(message = "Cannot be empty")
     private String password;
 
