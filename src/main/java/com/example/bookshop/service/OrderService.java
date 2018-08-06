@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
     @Autowired
+    private MailSender mailSender;
+    @Autowired
     private OrdersRepo ordersRepo;
     @Autowired
     private BookService bookService;
@@ -22,13 +24,14 @@ public class OrderService {
 
 
     public void addOrder(Long id, String name, Integer quantity, String number) {
-        String details=name+" "+quantity+" "+number;
+        String details=formString(id,name,quantity,number);
         Order order = new Order();
         order.setName(name);
         order.setQuantity(quantity);
         order.setNumber(number);
         order.setStatus(Status.NEW.toString());
         order.setBook(bookService.findBookById(id));
+        mailSender.send(details);
         RunningSS.sendMsg(details);
         ordersRepo.save(order);
     }
@@ -47,5 +50,12 @@ public class OrderService {
             }
             ordersRepo.save(order);
         }
+    }
+    private  String formString(Long id, String name, Integer quantity, String number){
+
+      return ("Book name : "+bookService.findBookById(id).getName()+
+              "\n Client name : " +name+
+              "\n Quantity : "+quantity+
+              "\n Client mob number : "+number) ;
     }
 }
