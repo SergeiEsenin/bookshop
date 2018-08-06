@@ -1,0 +1,55 @@
+<#macro order isOrderForm>
+    <#import  "main.fmt" as m>
+
+    <@m.page>
+
+<div class="row">
+
+    <div class="card-columns col-4">
+
+        <div class="card my-3" style="width: 18rem;">
+            <div>
+
+                <img src="/img/${book.filename}" class="card-img-top">
+
+
+            </div>
+            <div class="m-2">
+                <h5 align="center" class="card-title">${book.name}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Authors:</strong>
+                <#list book.authors as a>
+                <i>${a}</i>
+                    <sep>,</sep>
+                </#list></li>
+                <li class="list-group-item"><#list book.genres as a>
+                    <i>${a}</i>
+                    <sep>,</sep>
+                </#list> </li>
+                <li class="list-group-item"><strong>Price : </strong>${book.price}</li>
+            </ul>
+
+<#if !isOrderForm>
+            <div class="card-footer text-muted">
+                <a href="/order/${book.id}">Buy</a>
+            </div>
+</#if>
+        </div>
+    </div>
+    <#nested>
+        <#if !isOrderForm>
+    <div class="col-8 ">
+        <p>
+            ${book.annotation}
+        </p>
+    </div>
+        </#if>
+</div>
+    </@m.page>
+
+
+
+
+</#macro>

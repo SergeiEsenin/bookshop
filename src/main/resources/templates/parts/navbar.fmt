@@ -40,6 +40,11 @@
 
 
         <div class="navbar-text mr-3">${name}</div>
-<@l.logout />
+        <#if user??><@l.logout />
+        <#else >
+
+<a href="/login" class="badge badge-primary">Login</a>
+        </#if>
+
     </div>
 </nav>
