@@ -28,7 +28,7 @@
 
 
 
-  Список сообщений
+
 <div class="card-columns">
 <#list books as b>
     <div class="card my-3" style="width: 18rem;">
