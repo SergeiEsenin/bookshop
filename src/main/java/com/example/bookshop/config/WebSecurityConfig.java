@@ -1,7 +1,14 @@
 package com.example.bookshop.config;
 
 import com.example.bookshop.service.UserService;
+import org.apache.catalina.Context;
+import org.apache.catalina.connector.Connector;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,9 +31,9 @@ public PasswordEncoder passwordEncoder;
 public PasswordEncoder getPasswordEncoder (){return new BCryptPasswordEncoder(8);}
 
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
                 .authorizeRequests()
                 .antMatchers("/","/registration","/static/**").permitAll()
@@ -45,5 +52,8 @@ public PasswordEncoder getPasswordEncoder (){return new BCryptPasswordEncoder(8)
         auth.userDetailsService(userService).
                 passwordEncoder(passwordEncoder);
     }
+
+
+
 
 }

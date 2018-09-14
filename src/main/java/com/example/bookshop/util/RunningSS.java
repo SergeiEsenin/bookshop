@@ -6,10 +6,10 @@ public class RunningSS {
 
     public static void sendMsg(String s) {
         String path = getPath();
-        modifyFile(path+"/src/main/java/com/example/bookshop/scripts/send.sh","privet",s);
+        modifyFile(path+"/send.sh","privet",s);
         Process p;
         try {
-            String[] cmd = {"sh", path+"/src/main/java/com/example/bookshop/scripts/send.sh"};
+            String[] cmd = {"sh", path+"/send.sh"};
 
             p = Runtime.getRuntime().exec(cmd);
             p.waitFor();
@@ -27,7 +27,7 @@ public class RunningSS {
 
             e.printStackTrace();
         }
-        modifyFile(path+"/src/main/java/com/example/bookshop/scripts/send.sh",s,"privet");
+        modifyFile(path+"/send.sh",s,"privet");
 
 
     }
